@@ -1,0 +1,27 @@
+body{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-color: aqua;
+    margin: auto;
+    text-align: center;
+}
+#todo-input{
+    display: inline;
+}
+#add-btn{
+    display: flex;
+    background-color: blueviolet;
+}
+.completed{
+    text-decoration: line-through;
+    color:red;
+    opacity: 1;
+}
+.fade-start{
+    opacity:0;
+    transition: opacity 0.3s ease;
+}
+.fade-end{
+    opacity:1;
+}
