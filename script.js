@@ -9,13 +9,22 @@ let tasks =[];
 
     }
 
-function createTask(text){
+function createTask(task){
     const listItem = document.createElement("li");
     listItem.classList.add("fade-start");
-    listItem.textContent = text;
+
+    listItem.textContent = task.text;
+
+    if (task.completed) {
+        listItem.classList.add("completed");
+    }
     listItem.addEventListener("click", function() {
-    listItem.classList.toggle("completed");
+        listItem.classList.toggle("completed");
+
+        task.completed = !task.completed;
+        localStorage.setItem("tasks", JSON.stringify(tasks));
     });
+
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "X";
     deleteBtn.classList.add("btn", "btn-danger", "btn-sm", "ms-2");
@@ -24,21 +33,32 @@ function createTask(text){
     setTimeout(function() {
     listItem.classList.add("fade-end");
     }, 20);
-    deleteBtn.addEventListener("click", function() {
-    listItem.remove();
-    tasks = tasks.filter(t => t !== text);
+    deleteBtn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        listItem.remove();
+
+    tasks = tasks.filter(t => t.id !== task.id);
     localStorage.setItem("tasks", JSON.stringify(tasks));
 });
 }   
     
 
 addBtn.addEventListener("click", function(){
-    const kataxorisi = ergasia.value;
-    if (kataxorisi.trim() == ""){
+    const inputValue = ergasia.value;
+
+    if (inputValue.trim() == ""){
         return
     }
-createTask(kataxorisi);
-tasks.push(kataxorisi);
+
+    const newTask = {
+        id: Date.now(),
+        text: inputValue,
+        completed: false,
+
+    };
+    
+createTask(newTask);
+tasks.push(newTask);
 localStorage.setItem("tasks", JSON.stringify(tasks));
 ergasia.value = "";
 });
