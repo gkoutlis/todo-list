@@ -23,6 +23,21 @@ function createTask(task){
         listItem.classList.toggle("completed");
 
         task.completed   = !task.completed;
+        if (task.completed) {
+            confetti({
+                particleCount: 1000,
+                angle: 60,  
+                spread: 55,         
+                origin: { x: 0, y: 0.7 }   
+            });
+            confetti({
+                particleCount: 1000,
+                angle: 120,         
+                spread: 55,
+                origin: { x: 1, y: 0.7 } 
+            });
+        }
+
         localStorage.setItem("tasks", JSON.stringify(tasks));
     });
 
