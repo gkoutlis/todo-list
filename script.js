@@ -1,7 +1,8 @@
-const ergasia = document.getElementById("todo-input");
-const addBtn = document.getElementById("add-btn");
-const lista = document.getElementById("todo-list");
-let tasks =[];
+const ergasia  = document.getElementById("todo-input");
+const addBtn   = document.getElementById("add-btn");
+const lista    = document.getElementById("todo-list");
+const clearBtn = document.getElementById("clear-completed-btn")
+let tasks      = [];
     if (localStorage.getItem("tasks")){
         tasks = JSON.parse(localStorage.getItem("tasks"));
         tasks.forEach(t => createTask(t));
@@ -10,7 +11,7 @@ let tasks =[];
     }
 
 function createTask(task){
-    const listItem = document.createElement("li");
+    const listItem       = document.createElement("li");
     listItem.classList.add("fade-start");
 
     listItem.textContent = task.text;
@@ -21,11 +22,11 @@ function createTask(task){
     listItem.addEventListener("click", function() {
         listItem.classList.toggle("completed");
 
-        task.completed = !task.completed;
+        task.completed   = !task.completed;
         localStorage.setItem("tasks", JSON.stringify(tasks));
     });
 
-    const deleteBtn = document.createElement("button");
+    const deleteBtn       = document.createElement("button");
     deleteBtn.textContent = "X";
     deleteBtn.classList.add("btn", "btn-danger", "btn-sm", "ms-2");
     listItem.appendChild(deleteBtn);
@@ -37,36 +38,43 @@ function createTask(task){
         e.stopPropagation();
         listItem.remove();
 
-    tasks = tasks.filter(t => t.id !== task.id);
+    tasks                 = tasks.filter(t => t.id !== task.id);
     localStorage.setItem("tasks", JSON.stringify(tasks));
 });
 }   
     
 
 addBtn.addEventListener("click", function(){
-    const inputValue = ergasia.value;
+    const inputValue      =  ergasia.value;
 
     if (inputValue.trim() == ""){
         return
     }
 
-    const newTask = {
-        id: Date.now(),
-        text: inputValue,
-        completed: false,
+    const newTask         =  {
+        id                :  Date.now(),
+        text              :  inputValue,
+        completed         :  false,
 
     };
     
 createTask(newTask);
 tasks.push(newTask);
 localStorage.setItem("tasks", JSON.stringify(tasks));
-ergasia.value = "";
+ergasia.value                   =  "";
 });
 
 ergasia.addEventListener("keydown", function(event){
-    if (event.key == "Enter")
+    if (event.key               == "Enter")
         addBtn.click()
 })
+
+clearBtn.addEventListener("click", function() {
+    tasks                       =  tasks.filter(t => !t.completed);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const completedItems        =  document.querySelectorAll(".completed");
+    completedItems.forEach(item => item.remove());
+});
 
 
 

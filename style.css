@@ -25,3 +25,14 @@ body{
 .fade-end{
     opacity:1;
 }
+
+li {
+    cursor: pointer; 
+    user-select: none; 
+    position: relative; 
+    margin-bottom: 5px; 
+}
+
+li:hover {
+    background-color: #f8f9fa; 
+}
